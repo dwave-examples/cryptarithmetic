@@ -22,7 +22,7 @@ sys.path.append(example_dir)
 from cryptarithm import LetterVariable, build_dqm
 from utilities import update_coefficient_map_and_first_letter_set
 
-class TestCryptarithm(unittest.TestCase):
+class TestCryptarithmComponents(unittest.TestCase):
     """Test functionality of classes/methods for the example.
 
     """
@@ -35,8 +35,8 @@ class TestCryptarithm(unittest.TestCase):
                                           coefficient=42, 
                                           first_letter=False)
 
-        assert first_letter.domain == tuple(range(1,10))
-        assert not_first_letter.domain == tuple(range(10))
+        self.assertEqual(first_letter.domain, tuple(range(1,10)))
+        self.assertEqual(not_first_letter.domain, tuple(range(10)))
 
     def test_build_dqm(self):
 
@@ -52,7 +52,8 @@ class TestCryptarithm(unittest.TestCase):
 
         scale_factor = 1/(2**(len(coeff_map)))
 
-        assert dqm.num_variables() == 3
+        self.assertEqual(dqm.num_variables(), 3)
         for var in variable_list:
             for case in var.domain:
-                assert dqm.get_linear_case(var.name, case) == scale_factor*(coeff_map[var.name]*case)**2
+                self.assertEqual(dqm.get_linear_case(var.name, case), 
+                                scale_factor*(coeff_map[var.name]*case)**2)

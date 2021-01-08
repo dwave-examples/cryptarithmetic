@@ -34,10 +34,10 @@ class TestUtilities(unittest.TestCase):
 
     def test_parse_problem_file(self):
         lhs_list, rhs_list, problem_statement = parse_problem_file("example1.txt")
-        assert "SEND" in lhs_list
-        assert "MORE" in lhs_list
-        assert "MONEY" in rhs_list
-        assert "SEND + MORE = MONEY" == problem_statement
+        self.assertIn("SEND", lhs_list)
+        self.assertIn("MORE", lhs_list)
+        self.assertIn("MONEY", rhs_list)
+        self.assertEqual("SEND + MORE = MONEY", problem_statement)
 
     def test_update_coefficient_map_and_first_letter_set(self):
         coeff_map_test = defaultdict(int)
@@ -45,14 +45,14 @@ class TestUtilities(unittest.TestCase):
         test_list = ["CAT", "DOG"]
         update_coefficient_map_and_first_letter_set(test_list, 1, coeff_map_test, first_letters_test)
 
-        assert "C" in first_letters_test
-        assert "D" in first_letters_test
-        assert coeff_map_test["C"] == 100
-        assert coeff_map_test["A"] == 10
-        assert coeff_map_test["T"] == 1
-        assert coeff_map_test["D"] == 100
-        assert coeff_map_test["O"] == 10
-        assert coeff_map_test["G"] == 1
+        self.assertIn("C", first_letters_test)
+        self.assertIn("D", first_letters_test)
+        self.assertEqual(coeff_map_test["C"], 100)
+        self.assertEqual(coeff_map_test["A"], 10)
+        self.assertEqual(coeff_map_test["T"], 1)
+        self.assertEqual(coeff_map_test["D"], 100)
+        self.assertEqual(coeff_map_test["O"], 10)
+        self.assertEqual(coeff_map_test["G"], 1)
 
     @patch("builtins.print")
     def test_render_solution(self, mock_print):

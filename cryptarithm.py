@@ -137,7 +137,7 @@ if __name__ == "__main__":
         dqm, time_limit=5, compress=True
     ).aggregate()
 
-    lowest_energy_sample = next(response.lowest().data()).sample
+    lowest_energy_sample = response.first.sample
 
     render_solution(lowest_energy_sample,
                     variable_list,
