@@ -2,6 +2,10 @@
 Cryptarithmetic/verbal arithmetic/alphametics are logic puzzles.
 This example focuses on puzzles in base 10, thus a puzzle submitted may have no more than 10 letters total.
 
+There are a few constraints used in formulating this problem:
+* minimize difference between left-hand side and right-hand side of equation (minimum of zero).
+* assignments of digits to letters must be unique (hence upper bound of 10 total letters in base 10).
+
 ![example puzzle](/images/cryptarithmetic_ex.png)
 
 To run this example, first upload a text file under the puzzle_files folder.
