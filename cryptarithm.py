@@ -20,7 +20,7 @@ from collections import defaultdict
 from itertools import combinations
 import numpy as np
 
-from dimod import DQM, DiscreteQuadraticModel
+from dimod import DQM
 from dwave.system import LeapHybridDQMSampler
 from utilities import parse_problem_file, update_coefficient_map_and_first_letter_set, render_solution
 
@@ -46,7 +46,7 @@ class LetterVariable:
         return f"(name: {self.name}, coefficient: {self.coefficient}, domain: {self.domain})"
 
 
-def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DiscreteQuadraticModel:
+def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM:
     """Build the discrete quadratic model from provided variable list.
 
     Args:
