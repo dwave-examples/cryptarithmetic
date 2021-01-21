@@ -21,7 +21,7 @@ import os
 
 _generate_word_list = lambda x:[word.strip() for word in x.split("+")]
 
-def parse_problem_file(file_name:str = None) -> Tuple[List[str], str]:
+def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
     """Return lists of words found on left hand side, right hand side.
 
     Args:
@@ -31,7 +31,7 @@ def parse_problem_file(file_name:str = None) -> Tuple[List[str], str]:
         left-hand side list of words, right-hand side list of words, problem statement
 
     """
-    path = os.path.join(os.path.dirname(__file__), 'puzzle_files', file_name)
+    path = os.path.join(os.path.dirname(__file__), file_path)
     print(path)
     with open(path) as f:
         problem_statement = f.readline()

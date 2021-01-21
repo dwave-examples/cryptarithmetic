@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 from typing import List
 from pprint import pprint
 from tqdm import tqdm
@@ -106,12 +107,10 @@ def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> Dis
     return dqm
 
 if __name__ == "__main__":
-    import argparse
-
     parser = argparse.ArgumentParser()
     parser.add_argument("filename", type=str, nargs="?",
                          help="filename of txt file in puzzle_files folder",
-                         default="example1.txt")
+                         default="puzzle_files/example1.txt")
     args = parser.parse_args()
 
     first_letters = set()
