@@ -35,7 +35,7 @@ def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
     print(path)
     with open(path) as f:
         problem_statement = f.readline()
-        lhs, rhs = problem_statement.split("=")[0], problem_statement.split("=")[1]
+        lhs, rhs = problem_statement.split("=")
         return _generate_word_list(lhs), _generate_word_list(rhs), problem_statement
 
 
