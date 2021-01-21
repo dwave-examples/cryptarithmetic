@@ -56,7 +56,7 @@ def update_coefficient_map_and_first_letter_set(word_list: List[str],
         for power, letter in enumerate(word[::-1]):
             coefficient_map[letter] = coefficient_map[letter] + sign*(10**power)
             if (power == len(word)-1) and len(word)>1:
-                first_letters |= {letter}
+                first_letters.add(letter)
 
 
 def _integer_from_word(word: str, solution_map: dict) -> int:
