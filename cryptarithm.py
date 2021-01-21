@@ -53,6 +53,7 @@ def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM
 
     Args:
         variable_list: List of variables for cryptarithm problem.
+        coefficient_map: Dictionary mapping variables to their coefficients.
     
     Returns:
         dqm: Corresponding discrete quadratic model. 
