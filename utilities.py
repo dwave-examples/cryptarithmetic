@@ -43,7 +43,7 @@ def update_coefficient_map_and_first_letter_set(word_list: List[str],
                                                 sign: int, 
                                                 coefficient_map: DefaultDict[str, int], 
                                                 first_letters: set):
-    """Updates set of first letters and map of variable name to coefficients.
+    """Update set of first letters and map of variable name to coefficients.
 
     Args:
         word_list: list of words from either left hand side or right hand side.
@@ -81,7 +81,7 @@ def render_solution(sample: dict,
                     lhs_list: List[str], 
                     rhs_list: List[str], 
                     orig_example: str):
-    """Parses response from LeapHybridDQMSampler, prints solution if found.
+    """Parse response from LeapHybridDQMSampler, prints solution if found.
 
     Args:
         sample: Lowest energy sample from response.

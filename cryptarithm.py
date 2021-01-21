@@ -47,7 +47,7 @@ class LetterVariable:
 
 
 def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DiscreteQuadraticModel:
-    """Builds the discrete quadratic model from provided variable list.
+    """Build the discrete quadratic model from provided variable list.
 
     Args:
         variable_list: List of variables for cryptarithm problem.
