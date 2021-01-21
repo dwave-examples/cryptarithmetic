@@ -33,7 +33,7 @@ class TestUtilities(unittest.TestCase):
     first_letters_test = set()
 
     def test_parse_problem_file(self):
-        lhs_list, rhs_list, problem_statement = parse_problem_file("example1.txt")
+        lhs_list, rhs_list, problem_statement = parse_problem_file("puzzle_files/example1.txt")
         self.assertIn("SEND", lhs_list)
         self.assertIn("MORE", lhs_list)
         self.assertIn("MONEY", rhs_list)
