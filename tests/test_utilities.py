@@ -68,4 +68,6 @@ class TestUtilities(unittest.TestCase):
             "C":3
         }
         render_solution(sample_solution, var_list, lhs_list, rhs_list, example)
-        mock_print.assert_called_with(f"Solution found for {example}, 1 + 2 = 3")
+        mock_print.assert_called_with("Solution found for {example}, 1 + 2 = 3".format(
+            example=example
+        ))

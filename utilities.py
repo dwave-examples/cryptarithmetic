@@ -73,7 +73,7 @@ def _build_expression(lhs_list: List[str], rhs_list: List[str], solution_map: di
         
     lhs_str = " + ".join([str(lhs_ints) for lhs_ints in lhs_integers])
     rhs_str = str(_integer_from_word(rhs_list[0], solution_map))
-    return f"{lhs_str} = {rhs_str}"
+    return "{lhs_str} = {rhs_str}".format(lhs_str=lhs_str, rhs_str=rhs_str)
 
 
 def render_solution(sample: dict, 
@@ -101,6 +101,11 @@ def render_solution(sample: dict,
         rhs_sum += _integer_from_word(word, solution_map)
     
     if lhs_sum == rhs_sum:
-        print(f"Solution found for {orig_example}, {_build_expression(lhs_list, rhs_list, solution_map)}")
+        print("Solution found for {original_example}, {expression}".format(
+            original_example=orig_example, 
+            expression=_build_expression(lhs_list, rhs_list, solution_map)
+        ))
     else:
-        print(f"Solution not found this run, closest assignment is {_build_expression(lhs_list, rhs_list, solution_map)}")
+        print("Solution not found this run, closest assignment is {expression}".format(
+            expression=_build_expression(lhs_list, rhs_list, solution_map)
+        ))

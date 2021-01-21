@@ -43,7 +43,9 @@ class LetterVariable:
             self.domain = tuple(range(10))
 
     def __repr__(self):
-        return f"(name: {self.name}, coefficient: {self.coefficient}, domain: {self.domain})"
+        return "(name: {name}, coefficient: {coeff}, domain: {domain})".format(name=self.name,
+                                                                               coeff=self.coefficient,
+                                                                               domain=self.domain)
 
 
 def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM:
