@@ -109,7 +109,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--filename", type=str, 
+    parser.add_argument("filename", type=str, nargs="?",
                          help="filename of txt file in puzzle_files folder",
                          default="example1.txt")
     args = parser.parse_args()
