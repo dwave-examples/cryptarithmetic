@@ -102,7 +102,7 @@ def render_solution(sample: dict,
     
     if lhs_sum == rhs_sum:
         print("Solution found for {original_example}, {expression}".format(
-            original_example=orig_example, 
+            original_example=orig_example.strip(), 
             expression=_build_expression(lhs_list, rhs_list, solution_map)
         ))
     else:
