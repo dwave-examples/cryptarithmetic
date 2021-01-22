@@ -20,6 +20,7 @@ from pprint import pprint
 import os
 
 _generate_word_list = lambda x:[word.strip() for word in x.split("+")]
+EXCLUDED_OPERATORS = ['*', '-', '^', '%']
 
 def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
     """Return lists of words found on left hand side, right hand side.
@@ -36,6 +37,11 @@ def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
     with open(path) as f:
         problem_statement = f.readline()
         lhs, rhs = problem_statement.split("=")
+        for operator in EXCLUDED_OPERATORS:
+            if operator in problem_statement:
+                raise ValueError(
+            "Only the addition `+` operator is allowed for left-hand side expression"
+            )
         return _generate_word_list(lhs), _generate_word_list(rhs), problem_statement
 
 

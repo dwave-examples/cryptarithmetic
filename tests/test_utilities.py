@@ -15,6 +15,7 @@
 import sys, os
 import unittest
 from unittest.mock import patch
+import tempfile
 from collections import defaultdict
 
 example_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,6 +39,10 @@ class TestUtilities(unittest.TestCase):
         self.assertIn("MORE", lhs_list)
         self.assertIn("MONEY", rhs_list)
         self.assertEqual("SEND + MORE = MONEY", problem_statement)
+
+    def test_parse_problem_file_raises_with_excluded_operator(self):
+        with self.assertRaises(ValueError):
+            parse_problem_file("tests/excluded_operator_example.txt")
 
     def test_update_coefficient_map_and_first_letter_set(self):
         coeff_map_test = defaultdict(int)
