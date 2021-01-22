@@ -15,12 +15,12 @@
 """
 Helper functions to parse examples
 """
-from typing import List, Tuple, DefaultDict
+from typing import List, Tuple, DefaultDict, Union
 from pprint import pprint
 import os
 
 _generate_word_list = lambda x:[word.strip() for word in x.split("+")]
-EXCLUDED_OPERATORS = ['*', '-', '^', '%']
+EXCLUDED_OPERATORS = ["*", "-", "^", "%"]
 
 def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
     """Return lists of words found on left hand side, right hand side.
@@ -37,13 +37,20 @@ def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
     with open(path) as f:
         problem_statement = f.readline()
         lhs, rhs = problem_statement.split("=")
-        for operator in EXCLUDED_OPERATORS:
-            if operator in problem_statement:
-                raise ValueError(
-            "Only the addition `+` operator is allowed for left-hand side expression"
-            )
+        _input_validation(problem_statement)
         return _generate_word_list(lhs), _generate_word_list(rhs), problem_statement
 
+def _input_validation(problem_statement:Union[str, bytes]) -> Union[Exception, None]:
+    for operator in EXCLUDED_OPERATORS:
+            if operator in problem_statement:
+                raise ValueError(
+            "Only the addition `+` operator is allowed for left-hand side expression."
+            )
+    
+    if "+" not in problem_statement or "+" not in problem_statement:
+        raise ValueError(
+        "Problem statement must contain `+` and `=` symbols."
+    )
 
 def update_coefficient_map_and_first_letter_set(word_list: List[str], 
                                                 sign: int, 

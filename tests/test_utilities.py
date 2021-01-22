@@ -43,6 +43,10 @@ class TestUtilities(unittest.TestCase):
     def test_parse_problem_file_raises_with_excluded_operator(self):
         with self.assertRaises(ValueError):
             parse_problem_file("tests/excluded_operator_example.txt")
+    
+    def test_parse_problem_file_raises_with_missing_operator(self):
+        with self.assertRaises(ValueError):
+            parse_problem_file("tests/missing_operator_example.txt")
 
     def test_update_coefficient_map_and_first_letter_set(self):
         coeff_map_test = defaultdict(int)
