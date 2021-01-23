@@ -57,3 +57,4 @@ class TestCryptarithmComponents(unittest.TestCase):
             for case in var.domain:
                 self.assertEqual(dqm.get_linear_case(var.name, case), 
                                 scale_factor*(coeff_map[var.name]*case)**2)
+                                

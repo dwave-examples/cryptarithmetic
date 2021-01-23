@@ -130,3 +130,4 @@ def render_solution(sample: dict,
         print("Solution not found this run, closest assignment is {expression}".format(
             expression=_build_expression(lhs_list, rhs_list, solution_map)
         ))
+        

@@ -28,9 +28,9 @@ class LetterVariable:
     """Class for holding information about variables in alphametics problems.
 
     Args:
-        name: variable string id.
-        coefficient: coefficient on variable from formulation.
-        first_letter: whether or not variable is first letter of a word.
+        name: Variable string id.
+        coefficient: Coefficient on variable from formulation.
+        first_letter: Whether or not variable is first letter of a word.
 
     """
     def __init__(self, name:str = None, coefficient:int = 0, first_letter:bool = False):
@@ -146,3 +146,4 @@ if __name__ == "__main__":
                     lhs_list,
                     rhs_list,
                     problem_statement)
+                    

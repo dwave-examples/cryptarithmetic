@@ -80,3 +80,4 @@ class TestUtilities(unittest.TestCase):
         mock_print.assert_called_with("Solution found for {example}, 1 + 2 = 3".format(
             example=example
         ))
+        
