@@ -15,7 +15,6 @@
 import sys, os
 import unittest
 from unittest.mock import patch
-import tempfile
 from collections import defaultdict
 
 example_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +22,8 @@ sys.path.append(example_dir)
 
 from utilities import (parse_problem_file,
                        update_coefficient_map_and_first_letter_set,
-                       render_solution)
+                       render_solution,
+                       ProblemInputError)
 from cryptarithm import LetterVariable
 
 class TestUtilities(unittest.TestCase):
@@ -41,11 +41,11 @@ class TestUtilities(unittest.TestCase):
         self.assertEqual("SEND + MORE = MONEY", problem_statement)
 
     def test_parse_problem_file_raises_with_excluded_operator(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ProblemInputError):
             parse_problem_file("tests/excluded_operator_example.txt")
     
     def test_parse_problem_file_raises_with_missing_operator(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ProblemInputError):
             parse_problem_file("tests/missing_operator_example.txt")
 
     def test_update_coefficient_map_and_first_letter_set(self):
