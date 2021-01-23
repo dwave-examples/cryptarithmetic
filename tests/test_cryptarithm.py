@@ -15,10 +15,6 @@
 import sys, os
 import unittest
 import numpy as np
-
-example_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(example_dir)
-
 from cryptarithm import LetterVariable, build_dqm
 from utilities import update_coefficient_map_and_first_letter_set
 
@@ -57,4 +53,3 @@ class TestCryptarithmComponents(unittest.TestCase):
             for case in var.domain:
                 self.assertEqual(dqm.get_linear_case(var.name, case), 
                                 scale_factor*(coeff_map[var.name]*case)**2)
-                                

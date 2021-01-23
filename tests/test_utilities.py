@@ -17,9 +17,6 @@ import unittest
 from unittest.mock import patch
 from collections import defaultdict
 
-example_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(example_dir)
-
 from utilities import (parse_problem_file,
                        update_coefficient_map_and_first_letter_set,
                        render_solution,
@@ -80,4 +77,3 @@ class TestUtilities(unittest.TestCase):
         mock_print.assert_called_with("Solution found for {example}, 1 + 2 = 3".format(
             example=example
         ))
-        
