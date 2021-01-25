@@ -60,7 +60,8 @@ def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM
 
     """
     dqm = DQM()
-    # Scaling value arbitrarily chosen to tame energies for larger word problems.
+
+    # Scaling value arbitrarily chosen to tame energies for larger problems.
     eq_constr_scale = 1/(2**(len(coefficient_map)))
 
     # Set linear biases from equality constraint

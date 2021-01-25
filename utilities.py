@@ -43,22 +43,20 @@ def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
             lhs, rhs = problem_statement.split("=")
         except ValueError:
             raise ProblemInputError(
-            "Missing `=` symbol or complete left-hand/right-hand side."
-            )
+                "Missing `=` symbol or complete left-hand/right-hand side.")
         _input_validation(problem_statement)
         return _generate_word_list(lhs), _generate_word_list(rhs), problem_statement
 
-def _input_validation(problem_statement:Union[str, bytes]) -> Union[Exception, None]:
+def _input_validation(problem_statement:Union[str, bytes]):
     for operator in EXCLUDED_OPERATORS:
             if operator in problem_statement:
                 raise ProblemInputError(
-                "Only the addition `+` operator is allowed for left-hand side expression."
-                )
+                    "Only the addition `+` operator is allowed for \
+                    left-hand side expression.")
     
     if "+" not in problem_statement or "=" not in problem_statement:
         raise ProblemInputError(
-        "Problem statement must contain `+` and `=` symbols."
-        )
+            "Problem statement must contain `+` and `=` symbols.")
 
 def update_coefficient_map_and_first_letter_set(word_list: List[str], 
                                                 sign: int, 
@@ -124,10 +122,7 @@ def render_solution(sample: dict,
     if lhs_sum == rhs_sum:
         print("Solution found for {original_example}, {expression}".format(
             original_example=orig_example.strip(), 
-            expression=_build_expression(lhs_list, rhs_list, solution_map)
-        ))
+            expression=_build_expression(lhs_list, rhs_list, solution_map)))
     else:
         print("Solution not found this run, closest assignment is {expression}".format(
-            expression=_build_expression(lhs_list, rhs_list, solution_map)
-        ))
-        
+            expression=_build_expression(lhs_list, rhs_list, solution_map)))
