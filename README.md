@@ -26,4 +26,4 @@ There are a few constraints used in formulating this problem:
 Wiki page on [verbal arithmetic](https://en.wikipedia.org/wiki/Verbal_arithmetic).
 
 # License
-Released under the Apache License 2.0. See [license](license) here.
+Released under the Apache License 2.0. See [license](LICENSE) here.
