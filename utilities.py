@@ -25,14 +25,16 @@ EXCLUDED_OPERATORS = ["*", "-", "^", "%"]
 class ProblemInputError(Exception):
     pass
 
-def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
-    """Return lists of words found on left hand side, right hand side.
+def parse_problem_file(file_path: str = None) -> Tuple[List[str], str]:
+    """Return lists of words found on left hand side, right hand side,
+    and problem statement.
 
     Args:
-        file_name: Name of file located in puzzle_files folder.
+        file_path: Path to puzzle file.
 
     Returns:
-        left-hand side list of words, right-hand side list of words, problem statement
+        left-hand side list of words, right-hand side list of words, 
+        problem statement.
 
     """
     path = os.path.join(os.path.dirname(__file__), file_path)
@@ -47,7 +49,7 @@ def parse_problem_file(file_path:str = None) -> Tuple[List[str], str]:
         _input_validation(problem_statement)
         return _generate_word_list(lhs), _generate_word_list(rhs), problem_statement
 
-def _input_validation(problem_statement:Union[str, bytes]):
+def _input_validation(problem_statement: Union[str, bytes]):
     for operator in EXCLUDED_OPERATORS:
             if operator in problem_statement:
                 raise ProblemInputError(
@@ -99,7 +101,7 @@ def render_solution(sample: dict,
                     var_list: List, 
                     lhs_list: List[str], 
                     rhs_list: List[str], 
-                    orig_example: str):
+                    original_example: str):
     """Parse response from LeapHybridDQMSampler, prints solution if found.
 
     Args:
@@ -107,7 +109,7 @@ def render_solution(sample: dict,
         var_list: List of problem variables.
         lhs_list: List of words from left hand side.
         rhs_list: List of words from right hand side.
-        orig_example: Problem statement as read from text file.
+        original_example: Problem statement as read from text file.
 
     """
     lhs_sum, rhs_sum = 0,0
@@ -121,7 +123,7 @@ def render_solution(sample: dict,
     
     if lhs_sum == rhs_sum:
         print("Solution found for {original_example}, {expression}".format(
-            original_example=orig_example.strip(), 
+            original_example=original_example.strip(), 
             expression=_build_expression(lhs_list, rhs_list, solution_map)))
     else:
         print("Solution not found this run, closest assignment is {expression}".format(
