@@ -4,7 +4,7 @@ goal is to have unique assignments of digits to letters, such that the mathemati
 This demo only runs with addition puzzles.
 
 # Usage
-To run this example, execute:
+To run this demo, execute:
 ```
 python cryptarithm.py path/to/your/file.txt
 ```
@@ -32,8 +32,9 @@ There are three constraints used in formulating this problem:
 3. The first letter must be non-zero, unless the puzzle contains one letter long components.
 
 # Code Specifics
-Puzzle files containing larger words are generally harder for this to solve.
-Scaling can help the solver arrive at an optimal solution for larger problems with large energy scales.
+Puzzle files containing larger words are generally harder to solve.
+Scaling biases can help the solver arrive at an optimal solution for larger problems with large energy scales.
+Due to the probabilistic nature of the solver, it may take several runs of a puzzle file to find a solution.
 
 # References
 Wiki page on [verbal arithmetic](https://en.wikipedia.org/wiki/Verbal_arithmetic).
