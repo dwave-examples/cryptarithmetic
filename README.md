@@ -26,8 +26,8 @@ There are three puzzle files provided in the `puzzle_files` directory.
 If no puzzle file is specified, `puzzle_files/example1.txt` is used by default.
 
 # Code Overview
-There are a three constraints used in formulating this problem:
-1. Minimize difference between left-hand side and right-hand side of equation (minimum of zero).
+There are three constraints used in formulating this problem:
+1. Minimize the difference between squares of left-hand side and right-hand side of equation (minimum of zero).
 2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters.
 3. The first letter must be non-zero, unless the puzzle contains one letter long components.
 
