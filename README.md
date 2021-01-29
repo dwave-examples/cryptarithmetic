@@ -1,18 +1,43 @@
-# Cryptarithmetic example
-Cryptarithmetic/verbal arithmetic/alphametics are logic puzzles.
-This example focuses on puzzles in base 10, thus a puzzle submitted may have no more than 10 letters total.
+# Cryptarithmetic Addition
+[Cryptarithmetic puzzles](https://en.wikipedia.org/wiki/Verbal_arithmetic) are logical puzzles where the 
+goal is to have unique assignments of digits to letters, such that the mathematical expression holds true.
+This demo only runs with addition puzzles.
 
-There are a few constraints used in formulating this problem:
-* minimize difference between left-hand side and right-hand side of equation (minimum of zero).
-* assignments of digits to letters must be unique (hence upper bound of 10 total letters in base 10).
+# Usage
+To run this demo, execute:
+```
+python cryptarithm.py path/to/your/file.txt
+```
 
-![example puzzle](/images/cryptarithmetic_ex.png)
+For simplicity and to establish convention, ensure all letters are capitalized,
+that the puzzle be written on the first line of the file, and that no more than 10 unique letters are used in total.
 
-To run this example, first upload a text file under the puzzle_files folder.
-For simplicity and to establish convention, ensure all letters are capitalized. 
-On the command line in the main directory, run:
+For example:
+```
+python cryptarithm.py puzzle_files/example1.txt
+```
 
-`python cryptarithm.py --filename="your_file.txt"`
+Could produce:
+```
+Solution found for SEND + MORE = MONEY, 9567 + 1085 = 10652
+```
 
-For example, to submit the problem in the image above your text file would look like:
-SEND + MORE = MONEY
+There are three puzzle files provided in the `puzzle_files` directory.
+If no puzzle file is specified, `puzzle_files/example1.txt` is used by default.
+
+# Code Overview
+There are three constraints used in formulating this problem:
+1. Minimize the difference between squares of left-hand side and right-hand side of equation (minimum of zero).
+2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters.
+3. The first letter must be non-zero, unless the puzzle contains one letter long components.
+
+# Code Specifics
+Puzzle files containing larger words are generally harder to solve.
+Scaling biases can help the solver arrive at an optimal solution for larger problems with large energy scales.
+Due to the probabilistic nature of the solver, it may take several runs of a puzzle file to find a solution.
+
+# References
+Wiki page on [verbal arithmetic](https://en.wikipedia.org/wiki/Verbal_arithmetic).
+
+# License
+Released under the Apache License 2.0. See [license](LICENSE) here.
