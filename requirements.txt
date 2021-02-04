@@ -1,3 +1,2 @@
-numpy==1.19.3
 tqdm==4.55.1
 dwave-ocean-sdk>=3.2.0
