@@ -1,3 +1,7 @@
+[![Linux/Mac/Windows build status](
+  https://circleci.com/gh/dwave-examples/cryptarithmetic.svg?style=svg)](
+  https://circleci.com/gh/dwave-examples/cryptarithmetic)
+
 # Cryptarithmetic Addition
 [Cryptarithmetic puzzles](https://en.wikipedia.org/wiki/Verbal_arithmetic) are logical puzzles where the 
 goal is to have unique assignments of digits to letters, such that the mathematical expression holds true.
