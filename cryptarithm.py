@@ -136,9 +136,9 @@ if __name__ == "__main__":
 
     # Send DQM to LeapHybridDQMSampler, get response
     response = LeapHybridDQMSampler(
-        solver="hybrid_discrete_quadratic_model_version1", auto_scale=False
+        solver="hybrid_discrete_quadratic_model_version1"
     ).sample_dqm(
-        dqm, time_limit=5, compress=True
+        dqm, time_limit=5, label="Example - Cryptarithmetic"
     ).aggregate()
 
     lowest_energy_sample = response.first.sample

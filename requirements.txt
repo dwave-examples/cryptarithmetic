@@ -1,2 +1,2 @@
 tqdm==4.55.1
-dwave-ocean-sdk>=3.2.0
+dwave-ocean-sdk>=3.3.0
