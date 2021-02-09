@@ -33,12 +33,12 @@ If no puzzle file is specified, `puzzle_files/example1.txt` is used by default.
 There are three constraints used in formulating this problem:
 1. Minimize the difference between squares of left-hand side and right-hand side of equation (minimum of zero).
 2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters.
-3. The first letter must be non-zero, unless the puzzle contains one letter long components.
+3. The first letters must be non-zero, unless the puzzle contains one letter long components.
 
 # Code Specifics
 Puzzle files containing larger words are generally harder to solve.
 Scaling biases can help the solver arrive at an optimal solution for larger problems with large energy scales.
-Due to the probabilistic nature of the solver, it may take several runs of a puzzle file to find a solution.
+Due to the probabilistic nature of the solver, it may take several runs with a puzzle file to find a solution.
 
 # References
 Wiki page on [verbal arithmetic](https://en.wikipedia.org/wiki/Verbal_arithmetic).
