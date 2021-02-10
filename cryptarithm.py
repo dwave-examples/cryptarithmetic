@@ -15,7 +15,6 @@
 import argparse
 from typing import List
 from pprint import pprint
-from tqdm import tqdm
 from collections import defaultdict
 from itertools import combinations
 import numpy as np
@@ -66,7 +65,7 @@ def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM
 
     # Set linear biases from equality constraint
     print("setting linear biases...")
-    for variable in tqdm(variable_list):
+    for variable in variable_list:
         dqm.add_variable(len(variable.domain), variable.name)
         for idx in range(len(variable.domain)):
             dqm.set_linear_case(variable.name, idx, eq_constr_scale*
@@ -75,7 +74,7 @@ def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM
 
     # Set quadratic biases from equality constraint
     print("setting quadratic biases...")
-    for var1, var2 in tqdm(combinations(variable_list, r=2)):
+    for var1, var2 in combinations(variable_list, r=2):
         for i in range(dqm.num_cases(var1.name)):
             for j in range(dqm.num_cases(var2.name)):
                 dqm.set_quadratic_case(
@@ -92,7 +91,7 @@ def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM
     
     # Add penalties for any two variables being in the same state
     print("adding penalty biases...")
-    for var1, var2 in tqdm(combinations(variable_list, r=2)):
+    for var1, var2 in combinations(variable_list, r=2):
         if len(var1.domain) < len(var2.domain):
             for i in range(len(var1.domain)):
                 bias = dqm.get_quadratic_case(var1.name, i, var2.name, i+1)
