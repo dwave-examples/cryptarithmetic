@@ -31,9 +31,9 @@ If no puzzle file is specified, `puzzle_files/example1.txt` is used by default.
 
 # Code Overview
 Objective and constraints considered in problem formuation:
-1. Minimize the difference between squares of left-hand side and right-hand side of equation. (Objective)
-2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters. (Constraint)
-3. The first letters must be assigned a non-zero digit, unless the puzzle contains one-letter words. (Constraint)
+1. Minimize the difference between squares of left-hand side and right-hand side of equation.
+2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters.
+3. The first letters must be assigned a non-zero digit, unless the puzzle contains one-letter words.
 
 # Code Specifics
 Puzzles become harder to solve with increasing word length. For large problems - which have high energy scales - scaling
