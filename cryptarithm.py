@@ -134,9 +134,7 @@ if __name__ == "__main__":
     dqm = build_dqm(variable_list, coefficient_map)
 
     # Send DQM to LeapHybridDQMSampler, get response
-    response = LeapHybridDQMSampler(
-        solver="hybrid_discrete_quadratic_model_version1"
-    ).sample_dqm(
+    response = LeapHybridDQMSampler().sample_dqm(
         dqm, time_limit=5, label="Example - Cryptarithmetic"
     ).aggregate()
 
