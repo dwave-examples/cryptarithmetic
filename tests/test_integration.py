@@ -34,8 +34,7 @@ class IntegrationTests(unittest.TestCase):
         if os.getenv('DEBUG_OUTPUT'):
             print("Example output \n" + output)
 
-        with self.subTest(msg="Verify if output contains 'Solution found for SEND + MORE = MONEY' \n"):
-            self.assertIn("Solution found for SEND + MORE = MONEY".upper(), output)
+        self.assertIn("Solution found for SEND + MORE = MONEY".upper(), output, msg="No solution found.")
 
 if __name__ == '__main__':
     unittest.main()
