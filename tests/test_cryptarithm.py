@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys, os
 import unittest
-import numpy as np
 import dimod
 from cryptarithm import ModelVariable, build_cqm
-from utilities import update_coefficient_map_and_first_letter_set
 
 class TestCryptarithmComponents(unittest.TestCase):
     """Test functionality of classes/methods for the example.
