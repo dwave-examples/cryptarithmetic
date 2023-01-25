@@ -24,6 +24,11 @@ from utilities import (parse_problem_file,
 
 class ModelVariable:
     """Container for model variable information.
+
+    Args:
+        label: Single letter label for the model variable.
+        coefficient: Term that appears in main equality constraint.
+        first_letter: Whether or not letter is a first letter.
     
     """
     def __init__(self, label: str, coefficient: float, first_letter: bool = False):
@@ -43,6 +48,12 @@ class ModelVariable:
 
 def build_cqm(model_variables: List[ModelVariable]) -> CQM:
     """Build a CQM model for the verbal arithmetic problem.
+
+    Args:
+        model_variables: A list of model variables that define the problem.
+
+    Returns:
+        A CQM model for the verbal arithmetic problem.
     
     """
     cqm = CQM()
