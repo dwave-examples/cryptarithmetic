@@ -15,41 +15,41 @@
 import sys, os
 import unittest
 import numpy as np
-from cryptarithm import LetterVariable, build_dqm
+import dimod
+from cryptarithm import ModelVariable, build_cqm
 from utilities import update_coefficient_map_and_first_letter_set
 
 class TestCryptarithmComponents(unittest.TestCase):
     """Test functionality of classes/methods for the example.
 
     """
-    def test_letter_variable_class(self):
-        first_letter = LetterVariable(name="var", 
-                                      coefficient=7, 
-                                      first_letter=True)
+    def test_model_variable_class(self):
+        first_letter = ModelVariable(label="X", 
+                                     coefficient=7, 
+                                     first_letter=True)
 
-        not_first_letter = LetterVariable(name="another_var", 
-                                          coefficient=42, 
-                                          first_letter=False)
+        not_first_letter = ModelVariable(label="Y", 
+                                         coefficient=42, 
+                                         first_letter=False)
 
-        self.assertEqual(first_letter.domain, tuple(range(1,10)))
-        self.assertEqual(not_first_letter.domain, tuple(range(10)))
+        self.assertEqual(first_letter.lower_bound, 1)
+        self.assertEqual(first_letter.upper_bound, 9)
+        self.assertEqual(not_first_letter.lower_bound, 0)
+        self.assertEqual(not_first_letter.upper_bound, 9)
+        self.assertIsInstance(first_letter.var, dimod.QuadraticModel)
+        self.assertIsInstance(not_first_letter.var, dimod.QuadraticModel)
 
-    def test_build_dqm(self):
+    def test_build_cqm(self):
 
-        variable_list = [
-            LetterVariable("A", 1),
-            LetterVariable("B", 1),
-            LetterVariable("C", -1)
+        variables = [
+            ModelVariable("A", 1),
+            ModelVariable("B", 1),
+            ModelVariable("C", -1),
+            ModelVariable("D", -1)
         ]
 
-        coeff_map = {"A":1, "B":1, "C":-1}
+        cqm = build_cqm(variables)
 
-        dqm = build_dqm(variable_list, coeff_map)
-
-        scale_factor = 1/(2**(len(coeff_map)))
-
-        self.assertEqual(dqm.num_variables(), 3)
-        for var in variable_list:
-            for case in var.domain:
-                self.assertEqual(dqm.get_linear_case(var.name, case), 
-                                scale_factor*(coeff_map[var.name]*case)**2)
+        self.assertEqual(
+            cqm.num_variables(), len(variables) + (len(variables) * (len(variables)-1)/2)
+        )
