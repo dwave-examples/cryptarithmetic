@@ -16,7 +16,7 @@ import argparse
 from collections import defaultdict
 from typing import List
 
-from dimod import Binary, CQM, Integer, quicksum
+from dimod import Binary, ConstrainedQuadraticModel, Integer, quicksum
 from dwave.system import LeapHybridCQMSampler
 from utilities import (parse_problem_file, 
                        update_coefficient_map_and_first_letter_set, 
@@ -46,7 +46,7 @@ class ModelVariable:
             self.upper_bound = 9
 
 
-def build_cqm(model_variables: List[ModelVariable]) -> CQM:
+def build_cqm(model_variables: List[ModelVariable]) -> ConstrainedQuadraticModel:
     """Build a CQM model for the verbal arithmetic problem.
 
     Args:
@@ -56,7 +56,7 @@ def build_cqm(model_variables: List[ModelVariable]) -> CQM:
         A CQM model for the verbal arithmetic problem.
     
     """
-    cqm = CQM()
+    cqm = ConstrainedQuadraticModel()
 
     # Both sides equal constraint
     cqm.add_constraint(
