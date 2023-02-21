@@ -61,7 +61,7 @@ def build_cqm(model_variables: List[ModelVariable]) -> ConstrainedQuadraticModel
     # Both sides equal constraint
     cqm.add_constraint(
         quicksum(
-            [variable.coefficient*variable.var for variable in model_variables]
+            (variable.coefficient*variable.var for variable in model_variables)
         ) == 0
     )
 
