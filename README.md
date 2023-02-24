@@ -30,15 +30,10 @@ There are three puzzle files provided in the `puzzle_files` directory.
 If no puzzle file is specified, `puzzle_files/example1.txt` is used by default.
 
 # Code Overview
-Objective and constraints considered in problem formuation:
-1. Minimize the difference between squares of left-hand side and right-hand side of equation.
-2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters.
-3. The first letters must be assigned a non-zero digit, unless the puzzle contains one-letter words.
-
-# Code Specifics
-Puzzles become harder to solve with increasing word length. For large problems - which have high energy scales - scaling
-down the biases can help the solver arrive at an optimal solution. Due to the probabilistic nature of the solver, you
-may have to run the puzzle a few times to find a solution, provided one exists.
+Constraints considered in problem formuation:
+1. The first constraint is that the left-hand side must be equal to the right-hand side.
+2. Assignments of digits to letters must be unique, thus a puzzle may contain no more than 10 unique letters. This is expressed as a series of encoded not-equal constraints.
+3. The first letters must be assigned a non-zero digit, unless the puzzle contains one letter words.
 
 # References
 Wiki page on [verbal arithmetic](https://en.wikipedia.org/wiki/Verbal_arithmetic).

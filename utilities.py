@@ -80,51 +80,44 @@ def update_coefficient_map_and_first_letter_set(word_list: List[str],
                 first_letters.add(letter)
 
 
-def _integer_from_word(word: str, solution_map: dict) -> int:
+def _integer_from_word(word: str, sample: dict) -> int:
     num = 0
     for power, character in enumerate(word[::-1]):
-        num += solution_map[character]*10**power
-    return num
+        num += sample[character]*10**power
+    return int(num)
 
 
-def _build_expression(lhs_list: List[str], rhs_list: List[str], solution_map: dict) -> str:
+def _build_expression(lhs_list: List[str], rhs_list: List[str], sample: dict) -> str:
     lhs_integers = []
     for word in lhs_list:
-        lhs_integers.append(_integer_from_word(word, solution_map))
+        lhs_integers.append(_integer_from_word(word, sample))
         
     lhs_str = " + ".join([str(lhs_ints) for lhs_ints in lhs_integers])
-    rhs_str = str(_integer_from_word(rhs_list[0], solution_map))
+    rhs_str = str(_integer_from_word(rhs_list[0], sample))
     return "{lhs_str} = {rhs_str}".format(lhs_str=lhs_str, rhs_str=rhs_str)
 
 
 def render_solution(sample: dict, 
-                    var_list: List, 
                     lhs_list: List[str], 
                     rhs_list: List[str], 
                     original_example: str):
-    """Parse response from LeapHybridDQMSampler, prints solution if found.
+    """Parse response from LeapHybridCQMSampler, prints solution if found.
 
     Args:
         sample: Lowest energy sample from response.
-        var_list: List of problem variables.
         lhs_list: List of words from left hand side.
         rhs_list: List of words from right hand side.
         original_example: Problem statement as read from text file.
 
     """
     lhs_sum, rhs_sum = 0,0
-    
-    solution_map = {key:var.domain[idx] for key, idx, var in zip(sample.keys(),sample.values(),var_list)}
-    pprint(solution_map)
+
+    pprint(sample)
     for word in lhs_list:
-        lhs_sum += _integer_from_word(word, solution_map)
+        lhs_sum += _integer_from_word(word, sample)
     for word in rhs_list:
-        rhs_sum += _integer_from_word(word, solution_map)
+        rhs_sum += _integer_from_word(word, sample)
     
-    if lhs_sum == rhs_sum:
-        print("Solution found for {original_example}, {expression}".format(
-            original_example=original_example.strip(), 
-            expression=_build_expression(lhs_list, rhs_list, solution_map)))
-    else:
-        print("Solution not found this run, closest assignment is {expression}".format(
-            expression=_build_expression(lhs_list, rhs_list, solution_map)))
+    print("Solution found for {original_example}, {expression}".format(
+        original_example=original_example.strip(), 
+        expression=_build_expression(lhs_list, rhs_list, sample)))

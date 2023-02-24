@@ -1,4 +1,4 @@
-# Copyright 2021 D-Wave Systems Inc.
+# Copyright 2023 D-Wave Systems Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,135 +13,111 @@
 # limitations under the License.
 
 import argparse
-from typing import List
-from pprint import pprint
 from collections import defaultdict
-from itertools import combinations
-import numpy as np
+from typing import List
 
-from dimod import DQM
-from dwave.system import LeapHybridDQMSampler
-from utilities import parse_problem_file, update_coefficient_map_and_first_letter_set, render_solution
+from dimod import Binary, ConstrainedQuadraticModel, Integer, quicksum
+from dwave.system import LeapHybridCQMSampler
+from utilities import (parse_problem_file, 
+                       update_coefficient_map_and_first_letter_set, 
+                       render_solution)
 
-class LetterVariable:
-    """Class for holding information about variables in alphametics problems.
+class ModelVariable:
+    """Container for model variable information.
 
     Args:
-        name: Variable string id.
-        coefficient: Coefficient on variable from formulation.
-        first_letter: Whether or not variable is first letter of a word.
-
+        label: Single letter label for the model variable.
+        coefficient: Term that appears in main equality constraint.
+        first_letter: Whether or not letter is a first letter.
+    
     """
-    def __init__(self, name:str = None, coefficient:int = 0, first_letter:bool = False):
-        self.name = name
+    def __init__(self, label: str, coefficient: float, first_letter: bool = False):
+        self.label = label
         self.coefficient = coefficient
         self.first_letter = first_letter
+    
         if self.first_letter:
-            self.domain = tuple(range(1,10))
+            self.var = Integer(self.label, lower_bound=1, upper_bound=9)
+            self.lower_bound = 1
+            self.upper_bound = 9
         else:
-            self.domain = tuple(range(10))
-
-    def __repr__(self):
-        return "(name: {name}, coefficient: {coeff}, domain: {domain})".format(name=self.name,
-                                                                               coeff=self.coefficient,
-                                                                               domain=self.domain)
+            self.var = Integer(self.label, lower_bound=0, upper_bound=9)
+            self.lower_bound = 0
+            self.upper_bound = 9
 
 
-def build_dqm(variable_list: List[LetterVariable], coefficient_map: dict) -> DQM:
-    """Build the discrete quadratic model from provided variable list.
+def build_cqm(model_variables: List[ModelVariable]) -> ConstrainedQuadraticModel:
+    """Build a CQM model for the verbal arithmetic problem.
 
     Args:
-        variable_list: List of variables for cryptarithm problem.
-        coefficient_map: Dictionary mapping variables to their coefficients.
-    
+        model_variables: A list of model variables that define the problem.
+
     Returns:
-        dqm: Corresponding discrete quadratic model. 
-
+        A CQM model for the verbal arithmetic problem.
+    
     """
-    dqm = DQM()
+    cqm = ConstrainedQuadraticModel()
 
-    # Scaling value arbitrarily chosen to tame energies for larger problems.
-    eq_constr_scale = 1/(2**(len(coefficient_map)))
+    # Both sides equal constraint
+    cqm.add_constraint(
+        quicksum(
+            (variable.coefficient*variable.var for variable in model_variables)
+        ) == 0
+    )
 
-    # Set linear biases from equality constraint
-    print("setting linear biases...")
-    for variable in variable_list:
-        dqm.add_variable(len(variable.domain), variable.name)
-        for idx in range(len(variable.domain)):
-            dqm.set_linear_case(variable.name, idx, eq_constr_scale*
-                                                    (coefficient_map[variable.name]*
-                                                    variable.domain[idx])**2)
-
-    # Set quadratic biases from equality constraint
-    print("setting quadratic biases...")
-    for var1, var2 in combinations(variable_list, r=2):
-        for i in range(dqm.num_cases(var1.name)):
-            for j in range(dqm.num_cases(var2.name)):
-                dqm.set_quadratic_case(
-                    var1.name, i, var2.name, j, 2*
-                                                eq_constr_scale*
-                                                var1.domain[i]*
-                                                var2.domain[j]*
-                                                coefficient_map[var1.name]*
-                                                coefficient_map[var2.name]
-                )
-
-    # Choose a large penalty for quadratic interactions in same states
-    quad_penalty = eq_constr_scale*max(np.absolute(dqm.to_numpy_vectors()[2][2]))
+    # Add no two variables equal constraints
+    for i in range(len(model_variables)):
+        for j in range(i+1, len(model_variables)):
+            indicator = Binary(
+                f"{model_variables[i].label} not equal to {model_variables[j].label} indicator"
+            )
+            m_i_j_1 = model_variables[i].upper_bound + 1 - model_variables[j].lower_bound
+            m_i_j_2 = model_variables[j].upper_bound + 1 - model_variables[i].lower_bound
+            cqm.add_constraint(
+                model_variables[i].var - model_variables[j].var + 1 - m_i_j_1*indicator <= 0
+            )
+            cqm.add_constraint(
+                model_variables[j].var - model_variables[i].var + 1 - m_i_j_2*(1-indicator) <= 0
+            )
     
-    # Add penalties for any two variables being in the same state
-    print("adding penalty biases...")
-    for var1, var2 in combinations(variable_list, r=2):
-        if len(var1.domain) < len(var2.domain):
-            for i in range(len(var1.domain)):
-                bias = dqm.get_quadratic_case(var1.name, i, var2.name, i+1)
-                dqm.set_quadratic_case(var1.name, i, var2.name, i+1, bias + quad_penalty)
-        
-        elif len(var1.domain) > len(var2.domain):
-            for i in range(len(var2.domain)):
-                bias = dqm.get_quadratic_case(var1.name, i+1, var2.name, i)
-                dqm.set_quadratic_case(var1.name, i+1, var2.name, i, bias + quad_penalty)
+    return cqm
 
-        else:
-            for i in range(len(var1.domain)):
-                bias = dqm.get_quadratic_case(var1.name, i, var2.name, i)
-                dqm.set_quadratic_case(var1.name, i, var2.name, i, bias + quad_penalty)
-        
-    
-    return dqm
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("filename", type=str, nargs="?",
-                         help="filename of txt file in puzzle_files folder",
+
+    parser.add_argument("--filename", type=str, nargs="?",
+                         help="filepath to problem text file",
                          default="puzzle_files/example1.txt")
+
+    parser.add_argument("--time_limit", type=float, nargs="?",
+                        help="time limit to pass to CQM sampler",
+                        default=5.0)
+
     args = parser.parse_args()
 
     first_letters = set()
     coefficient_map = defaultdict(int)
 
     lhs_list, rhs_list, problem_statement = parse_problem_file(args.filename)
-    
+
     update_coefficient_map_and_first_letter_set(lhs_list, 1, coefficient_map, first_letters)
     update_coefficient_map_and_first_letter_set(rhs_list, -1, coefficient_map, first_letters)
 
-    variable_list = []
-    for variable, coefficient in coefficient_map.items():
-        variable_list.append(LetterVariable(variable, coefficient, first_letter=variable in first_letters))
+    model_variables = [
+        ModelVariable(
+            label=label, coefficient=coefficient, first_letter=label in first_letters
+        ) for label, coefficient in coefficient_map.items()
+    ]
 
-    pprint(variable_list)
+    cqm = build_cqm(model_variables)
 
-    dqm = build_dqm(variable_list, coefficient_map)
+    sampleset = LeapHybridCQMSampler().sample_cqm(cqm, time_limit=args.time_limit)
+    feasible_sampleset = sampleset.filter(lambda d: d.is_feasible)
 
-    # Send DQM to LeapHybridDQMSampler, get response
-    response = LeapHybridDQMSampler().sample_dqm(
-        dqm, time_limit=5, label="Example - Cryptarithmetic"
-    ).aggregate()
-
-    lowest_energy_sample = response.first.sample
-
-    render_solution(lowest_energy_sample,
-                    variable_list,
-                    lhs_list,
-                    rhs_list,
-                    problem_statement)
+    try:
+        sample = feasible_sampleset.first.sample
+        render_solution(sample, lhs_list, rhs_list, problem_statement)
+    except ValueError as e:
+        print(e)
+        print("Solution not found this run")

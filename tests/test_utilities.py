@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys, os
 import unittest
 from unittest.mock import patch
 from collections import defaultdict
@@ -21,7 +20,7 @@ from utilities import (parse_problem_file,
                        update_coefficient_map_and_first_letter_set,
                        render_solution,
                        ProblemInputError)
-from cryptarithm import LetterVariable
+from cryptarithm import ModelVariable
 
 class TestUtilities(unittest.TestCase):
     """Test functionality of utilities methods.
@@ -62,9 +61,9 @@ class TestUtilities(unittest.TestCase):
 
     @patch("builtins.print")
     def test_render_solution(self, mock_print):
-        var_list = [LetterVariable("A", 1),
-                    LetterVariable("B",1),
-                    LetterVariable("C", 1)]
+        var_list = [ModelVariable("A", 1),
+                    ModelVariable("B",1),
+                    ModelVariable("C", -1)]
         example = "A + B = C"
         lhs_list = ['A', 'B']
         rhs_list = ['C']
@@ -73,7 +72,7 @@ class TestUtilities(unittest.TestCase):
             "B":2,
             "C":3
         }
-        render_solution(sample_solution, var_list, lhs_list, rhs_list, example)
+        render_solution(sample_solution, lhs_list, rhs_list, example)
         mock_print.assert_called_with("Solution found for {example}, 1 + 2 = 3".format(
             example=example
         ))
