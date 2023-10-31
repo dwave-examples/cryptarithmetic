@@ -13,7 +13,7 @@ This demo only runs with addition puzzles.
 # Usage
 To run this demo, execute:
 ```
-python cryptarithm.py path/to/your/file.txt
+python cryptarithm.py --filename path/to/your/file.txt
 ```
 
 For simplicity and to establish convention, ensure all letters are capitalized,
@@ -21,7 +21,7 @@ that the puzzle be written on the first line of the file, and that no more than 
 
 For example:
 ```
-python cryptarithm.py puzzle_files/example1.txt
+python cryptarithm.py --filename puzzle_files/example1.txt
 ```
 
 Could produce:
